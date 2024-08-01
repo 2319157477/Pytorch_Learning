@@ -5,7 +5,7 @@ import torch.optim as optim
 xy = np.loadtxt('diabetes.csv.gz', delimiter=',', dtype=np.float32)
 x_data = torch.from_numpy(xy[:,:-1]) #[:,:-1]中，第一个':'表示所有行,':-1'表示排除-1这一行(即y)
 y_data = torch.from_numpy(xy[:, [-1]]) #[:, [-1]]中,[-1]表示只需要最后一行,并且存储为矩阵形式
-epochs = 500000
+epochs = 50000
 
 class Model(torch.nn.Module):
     def __init__(self):
@@ -29,7 +29,7 @@ criterion = torch.nn.BCELoss(reduction="sum")
 #优化器选择Adam
 optimizer = optim.Adam(model.parameters(), lr=0.1)
 #学习率下降
-scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=100000, gamma=0.1)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=100000, gamma=0.01)
 
 for epoch in range(epochs):
     #Forward
@@ -44,4 +44,4 @@ for epoch in range(epochs):
 
     #Update
     optimizer.step()
-    scheduler.step() 
+    #scheduler.step() 
